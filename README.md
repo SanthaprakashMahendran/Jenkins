@@ -188,38 +188,6 @@ After Jenkins is running, configure the Kubernetes cloud:
 
 ---
 
-## Suggestions and fixes
-
-### Critical
-
-1. **Missing Jenkins ServiceAccount**  
-   The StatefulSet uses `serviceAccountName: jenkins` but there is no manifest that creates that ServiceAccount. Create a manifest (e.g. `jenkins-namespace-sa.yaml`) with the `jenkins` namespace and a ServiceAccount named `jenkins`, and apply it before the StatefulSet.
-
-2. **StorageClass fileSystemId**  
-   `gp3-sc.yaml` has a hardcoded EFS ID. Replace with your EFS file system ID before applying.
-
-### Recommended
-
-3. **Rename gp3-sc.yaml**  
-   The file defines the EFS StorageClass `efs-sc`, not gp3. Rename to `efs-sc.yaml` to avoid confusion.
-
-4. **Single Ingress**  
-   You have two Ingress files; `jenkins-ingress.yaml` (ingressClassName + health check) is preferred. Remove or do not use `ingress.yaml` to avoid duplicate Ingress.
-
-5. **StatefulSet nodeSelector**  
-   To run Jenkins only on controller nodes, add under spec.template.spec: `nodeSelector: { dedicated: controller }`.
-
-6. **install.sh**  
-   The script creates the same IAM service account twice. One run with `--override-existing-serviceaccounts` is enough. Add `helm repo add` before the helm install commands.
-
-7. **RBAC**  
-   If you run agent pods in another namespace, extend the Role or use a ClusterRole and bind to the Jenkins SA.
-
-8. **IAM policy ARNs**  
-   Replace account ID 392746353565 with your AWS account ID.
-
----
-
 ## Quick apply (after EFS/ALB/EFS CSI are ready)
 
 ```bash
