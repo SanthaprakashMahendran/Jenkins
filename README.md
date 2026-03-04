@@ -207,3 +207,8 @@ kubectl apply -f jenkins-ingress.yaml
 
 - **In-cluster:** http://jenkins.jenkins.svc.cluster.local:8080
 - **External:** Use the Ingress host (e.g. jenkins.drtest.org) after DNS points to the ALB.
+
+## Service
+
+- AWS ( EKS, EFS )
+- K8's ( Statefullset, Storageclass, PVC, Service, Ingress )
