@@ -96,6 +96,19 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   --set serviceAccount.name=aws-load-balancer-controller
 ```
 
+### Attach ECR policy to the Servcie Account
+
+```bash
+eksctl create iamserviceaccount \
+  --cluster ci-eks-cluster \
+  --namespace jenkins \
+  --name jenkins \
+  --attach-policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser \
+  --region us-east-1 \
+  --approve \
+  --override-existing-serviceaccounts
+```
+
 ### 7) Label nodes (controller and runner)
 
 - **Controller** (e.g. for Jenkins master):
